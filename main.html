@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nour Elmasry - Special Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #fce7f3, #fbcfe8, #f9a8d4);
+            overflow: hidden;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .flower,
+        .heart {
+            position: absolute;
+            top: -50px;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(110vh) scale(1);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-50px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .twinkle {
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 0.2;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .shake:hover {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+
+        .glow {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rainbow-border {
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+            padding: 3px;
+            border-radius: 50%;
+        }
+
+        .main-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-wrapper {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .buttons-container {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .message-container {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .music-control.playing {
+            background: rgba(236, 72, 153, 0.9);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl" onclick="toggleMusic()">
+        🎵
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="./imgs/WhatsApp Audio 2025-06-28 at 03.30.43_5e7b563e.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Blur background overlay -->
+    <div class="absolute inset-0 backdrop-blur-sm"></div>
+
+    <!-- Twinkling stars background -->
+    <div class="absolute inset-0">
+        <canvas id="stars"></canvas>
+    </div>
+
+    <!-- Flowers -->
+    <div class="absolute inset-0" id="flowers"></div>
+
+    <!-- Hearts -->
+    <div class="absolute inset-0" id="hearts"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="content-wrapper">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 twinkle text-pink-700">🌸 To My Sunshine 🌸</h1>
+
+            <!-- Rainbow border around image -->
+            <div class="rainbow-border mb-6 inline-block">
+                <img src="./imgs/20250622_075919(1).jpg" alt="Nour Elmasry"
+                    class="w-32 h-32 md:w-40 md:h-40 rounded-full shadow-2xl glow shake">
+            </div>
+
+            <h2 class="text-xl md:text-2xl font-semibold mb-4 text-pink-600 fade-in">Nour Elmasry</h2>
+
+            <div id="messageContainer" class="message-container">
+                <p id="message1" class="text-lg md:text-xl text-center mb-4"></p>
+                <p id="message2" class="text-base md:text-lg text-center mb-4 hidden"></p>
+                <p id="message3" class="text-base md:text-lg text-center mb-4 hidden"></p>
+            </div>
+
+            <!-- Buttons Container with fixed height -->
+            <div id="buttonsContainer" class="buttons-container hidden">
+                <button id="cuteBtn"
+                    class="px-6 py-3 bg-pink-400 hover:bg-pink-500 text-white rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 z-10 text-sm md:text-base">
+                    💕 Tap to see something special! 💕
+                </button>
+                <button id="apologyBtn"
+                    class="px-6 py-3 bg-purple-400 hover:bg-purple-500 text-white rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 z-10 hidden text-sm md:text-base">
+                    🌸 I'm sorry from the bottom of my heart 💔
+                </button>
+                <button id="careBtn"
+                    class="px-6 py-3 bg-rose-400 hover:bg-rose-500 text-white rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 z-10 hidden text-sm md:text-base">
+                    💖 I really care about you and your feelings 💖
+                </button>
+            </div>
+
+            <!-- Heart SVG Pulsing -->
+            <div class="mt-8 z-10">
+                <svg class="w-12 h-12 md:w-16 md:h-16 animate-pulse text-pink-500" fill="currentColor"
+                    viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.343l-6.828-6.829a4 4 0 010-5.656z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Music functionality
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicControl.classList.remove('playing');
+                musicControl.innerHTML = '🔇';
+            } else {
+                bgMusic.play().catch(e => console.log('Music play failed:', e));
+                musicControl.classList.add('playing');
+                musicControl.innerHTML = '🎵';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // Start music automatically when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            // Try to start music automatically
+            bgMusic.volume = 0.3; // Set volume to 30%
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                musicControl.classList.add('playing');
+                musicControl.innerHTML = '🎵';
+            }).catch(e => {
+                console.log('Auto-play failed, user needs to click:', e);
+                musicControl.innerHTML = '🔇';
+            });
+        });
+
+        // Enhanced typing effect with multiple messages
+        const messages = [
+            "Some flowers and hearts for the sunshine in my life 🌷❤️✨",
+            "I'm sorry from the bottom of my heart... 💔",
+            "I really care about you and your feelings 🌟"
+        ];
+
+        let currentMessage = 0;
+        let currentChar = 0;
+
+        function typeMessage() {
+            const messageElement = document.getElementById(`message${currentMessage + 1}`);
+            const currentText = messages[currentMessage];
+
+            if (currentChar < currentText.length) {
+                messageElement.innerHTML += currentText.charAt(currentChar);
+                currentChar++;
+                setTimeout(typeMessage, 80);
+            } else {
+                // Show next message after delay
+                setTimeout(() => {
+                    if (currentMessage < messages.length - 1) {
+                        currentMessage++;
+                        currentChar = 0;
+                        document.getElementById(`message${currentMessage + 1}`).classList.remove('hidden');
+                        typeMessage();
+                    } else {
+                        // Show buttons after all messages
+                        setTimeout(() => {
+                            document.getElementById("buttonsContainer").classList.remove("hidden");
+                            document.getElementById("buttonsContainer").classList.add("fade-in");
+                        }, 1000);
+                    }
+                }, 1500);
+            }
+        }
+
+        // Start typing after page loads
+        setTimeout(typeMessage, 1000);
+
+        // Falling flowers
+        const flowersContainer = document.getElementById("flowers");
+        const flowerSrc = "https://img.icons8.com/emoji/48/000000/cherry-blossom.png";
+        for (let j = 0; j < 12; j++) {
+            const img = document.createElement("img");
+            img.src = flowerSrc;
+            img.classList.add("flower");
+            img.style.left = Math.random() * window.innerWidth + "px";
+            img.style.animation = `fall ${5 + Math.random() * 5}s linear infinite`;
+            img.style.animationDelay = `${Math.random() * 5}s`;
+            flowersContainer.appendChild(img);
+        }
+
+        // Floating hearts
+        const heartsContainer = document.getElementById("hearts");
+        const heartSrc = "https://img.icons8.com/emoji/48/000000/red-heart.png";
+        for (let k = 0; k < 12; k++) {
+            const img = document.createElement("img");
+            img.src = heartSrc;
+            img.classList.add("heart");
+            img.style.left = Math.random() * window.innerWidth + "px";
+            img.style.bottom = "-50px";
+            img.style.animation = `float ${5 + Math.random() * 5}s linear infinite`;
+            img.style.animationDelay = `${Math.random() * 5}s`;
+            heartsContainer.appendChild(img);
+        }
+
+        // Twinkling stars
+        const canvas = document.getElementById("stars");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+
+        const stars = [];
+        for (let s = 0; s < 100; s++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                alpha: Math.random()
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
+            });
+        }
+
+        setInterval(() => {
+            stars.forEach(star => {
+                star.alpha += (Math.random() - 0.5) * 0.1;
+                if (star.alpha < 0) star.alpha = 0;
+                if (star.alpha > 1) star.alpha = 1;
+            });
+            drawStars();
+        }, 100);
+
+        // Button interactions
+        document.getElementById("cuteBtn").addEventListener("click", () => {
+            alert("🌸 You are the cutest and most precious person 🌸");
+            document.getElementById("apologyBtn").classList.remove("hidden");
+            document.getElementById("apologyBtn").classList.add("fade-in");
+        });
+
+        document.getElementById("apologyBtn").addEventListener("click", () => {
+            alert("💔 I'm truly sorry for everything... Please forgive me 💔");
+            document.getElementById("careBtn").classList.remove("hidden");
+            document.getElementById("careBtn").classList.add("fade-in");
+        });
+
+        document.getElementById("careBtn").addEventListener("click", () => {
+            alert("💖 I really care about you and your feelings... You're important to me 💖");
+        });
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', resizeCanvas);
+
+        // Prevent scrolling
+        document.addEventListener('wheel', function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function (e) {
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+
+</body>
+
+</html>
