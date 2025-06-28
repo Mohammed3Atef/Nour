@@ -275,6 +275,33 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
         }
+
+        /* Mobile Responsive for Popup */
+        @media (max-width: 768px) {
+            .popup-modal {
+                padding: 30px 20px;
+                margin: 20px;
+                max-width: 90%;
+                width: calc(100% - 40px);
+            }
+
+            .popup-title {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+
+            .popup-message {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .popup-btn {
+                padding: 10px 25px;
+                font-size: 14px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -502,7 +529,7 @@
 
         // Button interactions
         document.getElementById("cuteBtn").addEventListener("click", () => {
-            alert("🌸 You are the cutest and most precious person 🌸");
+            showPopup("🌸 You are the cutest and most precious person 🌸", "You are the cutest and most precious person in my life. Your smile brightens my day and your presence fills my heart with joy. I cherish every moment we spend together.");
             document.getElementById("apologyBtn").classList.remove("hidden");
             document.getElementById("apologyBtn").classList.add("fade-in");
         });
