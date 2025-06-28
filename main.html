@@ -206,6 +206,75 @@
             background: rgba(236, 72, 153, 0.9);
             color: white;
         }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-modal {
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.7);
+            transition: all 0.3s ease;
+            border: 3px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .popup-overlay.show .popup-modal {
+            transform: scale(1);
+        }
+
+        .popup-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #be185d;
+            margin-bottom: 15px;
+        }
+
+        .popup-message {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .popup-btn {
+            background: linear-gradient(45deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+        }
     </style>
 </head>
 
@@ -214,6 +283,15 @@
     <!-- Music Control -->
     <div class="music-control" id="musicControl" onclick="toggleMusic()">
         🎵
+    </div>
+
+    <!-- Popup Modal -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-modal">
+            <div class="popup-title" id="popupTitle">🌸 Special Message 🌸</div>
+            <div class="popup-message" id="popupMessage">This is a special message for you!</div>
+            <button class="popup-btn" onclick="closePopup()">💕 Close 💕</button>
+        </div>
     </div>
 
     <!-- Background Music -->
@@ -430,13 +508,31 @@
         });
 
         document.getElementById("apologyBtn").addEventListener("click", () => {
-            alert("💔 I'm truly sorry for everything... Please forgive me 💔");
+            showPopup("💔 I'm Sorry 💔", "I'm truly sorry for everything... Please forgive me from the bottom of my heart. You deserve all the happiness in the world.");
             document.getElementById("careBtn").classList.remove("hidden");
             document.getElementById("careBtn").classList.add("fade-in");
         });
 
         document.getElementById("careBtn").addEventListener("click", () => {
-            alert("💖 I really care about you and your feelings... You're important to me 💖");
+            showPopup("💖 You're Special 💖", "I really care about you and your feelings... You're important to me and you mean so much to me. Thank you for being you.");
+        });
+
+        // Popup functions
+        function showPopup(title, message) {
+            document.getElementById('popupTitle').innerHTML = title;
+            document.getElementById('popupMessage').innerHTML = message;
+            document.getElementById('popupOverlay').classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').classList.remove('show');
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('popupOverlay').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closePopup();
+            }
         });
 
         // Resize canvas on window resize
